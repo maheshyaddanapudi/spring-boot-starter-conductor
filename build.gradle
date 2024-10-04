@@ -1,6 +1,7 @@
 plugins {
 	id 'java'
 	id 'maven-publish'
+	id 'signing'
 	id 'io.spring.dependency-management' version '1.1.3'
 }
 
@@ -121,17 +122,74 @@ dependencies {
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 }
 
-// Publishing only to local Maven repository for testing
+// Javadoc and Sources JAR tasks
+task javadocJar(type: Jar) {
+	classifier = 'javadoc'
+	from javadoc
+}
+
+task sourcesJar(type: Jar) {
+	classifier = 'sources'
+	from sourceSets.main.allSource
+}
+
+artifacts {
+	archives javadocJar, sourcesJar
+}
+
+// Signing the artifacts
+signing {
+	sign publishing.publications.mavenJava
+}
+
+// Toggle between Maven Central (Sonatype) and mavenLocal
 publishing {
 	publications {
 		mavenJava(MavenPublication) {
 			from components.java
-			groupId = project.group
-			artifactId = 'spring-boot-starter-conductor'
-			version = project.version
+			artifact tasks.javadocJar
+			artifact tasks.sourcesJar
+
+			pom {
+				name = 'Spring Boot Starter for Netflix Conductor'
+				description = 'A Spring Boot starter for Netflix Conductor'
+				url = 'https://github.com/maheshyaddanapudi/spring-boot-starter-conductor'
+
+				licenses {
+					license {
+						name = 'Apache License, Version 2.0'
+						url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+					}
+				}
+				developers {
+					developer {
+						id = 'maheshyaddanapudi'
+						name = 'Mahesh Yaddanapudi'
+						email = 'mahesh@maheshyaddanapudi.com'
+					}
+				}
+				scm {
+					connection = 'scm:git:git://github.com/maheshyaddanapudi/spring-boot-starter-conductor.git'
+					developerConnection = 'scm:git:ssh://github.com/maheshyaddanapudi/spring-boot-starter-conductor.git'
+					url = 'https://github.com/maheshyaddanapudi/spring-boot-starter-conductor'
+				}
+			}
 		}
 	}
+
 	repositories {
-		mavenLocal() // Publish to local Maven repository
+		// Use a Gradle property to toggle between mavenLocal and Sonatype
+		if (findProperty("publishToLocal")?.toBoolean() ?: false) {
+			mavenLocal()
+		} else {
+			maven {
+				name = "ossrh"
+				url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+				credentials {
+					username = findProperty("ossrhUsername") ?: ""
+					password = findProperty("ossrhPassword") ?: ""
+				}
+			}
+		}
 	}
 }
