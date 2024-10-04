@@ -139,11 +139,6 @@ artifacts {
 	archives javadocJar, sourcesJar
 }
 
-// Signing the artifacts
-signing {
-	sign publishing.publications.mavenJava
-}
-
 // Toggle between Maven Central (Sonatype) and mavenLocal
 publishing {
 	publications {
@@ -193,6 +188,13 @@ publishing {
 				}
 			}
 		}
+	}
+}
+
+// Signing configuration
+afterEvaluate {
+	signing {
+		sign publishing.publications.mavenJava
 	}
 }
 
