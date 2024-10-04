@@ -194,4 +194,8 @@ publishing {
 			}
 		}
 	}
+
+// Ensure publishing is separate from build
+tasks.build {
+    dependsOn jar
 }
