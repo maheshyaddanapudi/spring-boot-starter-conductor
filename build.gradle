@@ -165,7 +165,7 @@ publishing {
 					developer {
 						id = 'maheshyaddanapudi'
 						name = 'Mahesh Yaddanapudi'
-						email = 'mahesh@maheshyaddanapudi.com'
+						email = 'opensource@maheshyaddanapudi.com'
 					}
 				}
 				scm {
