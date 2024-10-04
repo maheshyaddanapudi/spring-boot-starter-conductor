@@ -61,3 +61,11 @@ jobs:
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+
+      # Clean up GPG keys
+      - name: Clean up GPG keys
+        run: |
+          rm private.key
+          gpg --batch --yes --delete-secret-keys actions@github.com
+          gpg --batch --yes --delete-keys actions@github.com
+
