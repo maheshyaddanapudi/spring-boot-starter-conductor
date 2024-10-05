@@ -8,7 +8,11 @@ on:
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
-
+    env:
+      OSSRH_HTOKEN: ${{ secrets.OSSRH_HTOKEN }}
+      OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+      OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
     steps:
       # Checkout the repository code
       - name: Checkout code
@@ -81,7 +85,7 @@ jobs:
       - name: Build and publish
         run: ./gradlew clean build publish --no-daemon --stacktrace
         env:
-          OSSRH_TOKEN: ${{ env.OSSRH_TOKEN }}
+          OSSRH_TOKEN: ${{ env.OSSRH_HTOKEN }}
 
       # Clean up GPG keys
       - name: Clean up GPG keys
