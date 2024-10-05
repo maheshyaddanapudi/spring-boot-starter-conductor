@@ -25,7 +25,6 @@ jobs:
       - name: Generate GPG keys
         run: |
           gpg --batch --gen-key <<EOF
-          %no-protection
           Key-Type: default
           Subkey-Type: default
           Name-Real: GitHub Actions
