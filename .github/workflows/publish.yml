@@ -31,6 +31,7 @@ jobs:
           Name-Real: GitHub Actions
           Name-Email: actions@github.com
           Expire-Date: 1d
+          Passphrase: ${GPG_PASSPHRASE}
           %commit
           EOF
           gpg --list-keys
