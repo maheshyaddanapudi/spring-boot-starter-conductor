@@ -141,11 +141,7 @@ artifacts {
 }
 // Configure Maven Publishing using Vanniktech Plugin
 mavenPublishing {
-    coordinates(
-        groupId = group as String,
-        artifactId = archivesBaseName,
-        version = version as String
-    )
+    coordinates(group, archivesBaseName, version)
 
     pom {
         name = "Spring Boot Starter for Netflix Conductor"
