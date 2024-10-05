@@ -182,10 +182,13 @@ publishing {
 			maven {
 				name = "ossrh"
 				url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-				credentials {
-			            username = project.findProperty('ossrhUsername') ?: System.getenv('OSSRH_USERNAME')
-                                    password = project.findProperty('ossrhPassword') ?: System.getenv('OSSRH_PASSWORD')
-				}
+				credentials(HttpHeaderCredentials) {
+                                    name = "Authorization"
+                                    value = "Bearer ${System.getenv('OSSRH_TOKEN')}"
+                                }
+                                authentication {
+                                    header(HttpHeaderAuthentication)
+                                }
 			}
 		}
 	}
