@@ -19,7 +19,7 @@ jobs:
         run: |
           echo "::add-mask::${{ secrets.OSSRH_USERNAME }}"
           echo "::add-mask::${{ secrets.OSSRH_PASSWORD }}"
-          ENCODED_TOKEN=$(printf "%s:%s" "${{ secrets.OSSRH_USERNAME }}" "${{ secrets.OSSRH_PASSWORD }}" | base64)
+          ENCODED_TOKEN=$(printf "%s:%s" "${{ secrets.OSSRH_USERNAME }}" "${{ secrets.OSSRH_PASSWORD }}" | base64 | tr -d '\n')
           echo "OSSRH_TOKEN=$ENCODED_TOKEN" >> $GITHUB_ENV
         shell: bash
 
@@ -61,6 +61,7 @@ jobs:
           echo "signing.gnupg.options=--pinentry-mode loopback" >> ~/.gradle/gradle.properties
         env:
           KEY_ID: ${{ env.KEY_ID }}
+          OSSRH_TOKEN: ${{ env.OSSRH_TOKEN }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         shell: bash
 
