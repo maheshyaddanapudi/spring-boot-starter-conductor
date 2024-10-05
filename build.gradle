@@ -139,42 +139,39 @@ task sourcesJar(type: Jar) {
 artifacts {
 	archives javadocJar, sourcesJar
 }
+
 // Configure Maven Publishing using Vanniktech Plugin
 mavenPublishing {
-    coordinates(group, archivesBaseName, version)
+  coordinates(group, archivesBaseName, version)
 
-    pom {
-        name = "Spring Boot Starter for Netflix Conductor"
-        description = "A Spring Boot starter for Netflix Conductor"
-        url = "https://github.com/maheshyaddanapudi/spring-boot-starter-conductor"
-
-        licenses {
-            license {
-                name = "Apache License, Version 2.0"
-                url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
-            }
-        }
-
-        developers {
-            developer {
-                id = "maheshyaddanapudi"
-                name = "Mahesh Yaddanapudi"
-                email = "opensource@maheshyaddanapudi.com"
-            }
-        }
-
-        scm {
-            connection = "scm:git:git://github.com/maheshyaddanapudi/spring-boot-starter-conductor.git"
-            developerConnection = "scm:git:ssh://github.com/maheshyaddanapudi/spring-boot-starter-conductor.git"
-            url = "https://github.com/maheshyaddanapudi/spring-boot-starter-conductor"
-        }
+  pom {
+    name = "Spring Boot Starter for Netflix Conductor"
+    description = "A Spring Boot starter for Netflix Conductor."
+    inceptionYear = "2024"
+    url = "https://github.com/maheshyaddanapudi/spring-boot-starter-conductor"
+    
+    licenses {
+      license {
+        name = "The Apache License, Version 2.0"
+        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+        distribution = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
     }
-
-    // Configure publishing to Maven Central using Central Portal
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
-
-    // Enable GPG signing for all publications
-    signAllPublications()
+    
+    developers {
+      developer {
+        id = "maheshyaddanapudi"
+        name = "Mahesh Yaddanapudi"
+        url = "https://github.com/maheshyaddanapudi/"
+      }
+    }
+    
+    scm {
+      url = "https://github.com/maheshyaddanapudi/spring-boot-starter-conductor/"
+      connection = "scm:git:git://github.com/maheshyaddanapudi/spring-boot-starter-conductor.git"
+      developerConnection = "scm:git:ssh://git@github.com/maheshyaddanapudi/spring-boot-starter-conductor.git"
+    }
+  }
 }
 
 // Remove or comment out the existing 'publishing' block to avoid conflicts
