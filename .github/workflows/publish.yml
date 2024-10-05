@@ -3,7 +3,7 @@ name: Publish to Maven Central
 on:
   push:
     branches:
-      - release # or 'main' depending on how you want to control it
+      - release # or 'main' depending on your branch control
 
 jobs:
   build-and-publish:
@@ -40,8 +40,8 @@ jobs:
           gpg --armor --pinentry-mode loopback --batch --passphrase ${GPG_PASSPHRASE} --export-secret-keys > private.key
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-
-      # Set up the Gradle wrapper and give it permission to run
+          
+      # Setup the Gradle wrapper and give it permission to run
       - name: Setup Gradle Wrapper
         run: chmod +x ./gradlew
 
