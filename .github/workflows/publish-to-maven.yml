@@ -61,6 +61,14 @@ jobs:
           echo "EOF" >> $GITHUB_ENV
         shell: bash
 
+      # Configure GPG to use loopback pinentry
+      - name: Configure GPG
+        run: |
+          echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
+          echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
+          gpgconf --kill gpg-agent
+        shell: bash
+
       # Set up JDK 17 and pass GPG key (moved below GPG key generation)
       - name: Set up JDK 17 and GPG key
         uses: actions/setup-java@v3
