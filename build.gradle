@@ -183,8 +183,8 @@ publishing {
 				name = "ossrh"
 				url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
 				credentials {
-					username = findProperty("ossrhUsername") ?: ""
-					password = findProperty("ossrhPassword") ?: ""
+			            username = project.findProperty('ossrhUsername') ?: System.getenv('OSSRH_USERNAME')
+                                    password = project.findProperty('ossrhPassword') ?: System.getenv('OSSRH_PASSWORD')
 				}
 			}
 		}
@@ -194,6 +194,7 @@ publishing {
 // Signing configuration
 afterEvaluate {
 	signing {
+		useGpgCmd()
 		sign publishing.publications.mavenJava
 	}
 }
