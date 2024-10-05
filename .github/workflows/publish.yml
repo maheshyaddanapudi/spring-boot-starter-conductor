@@ -17,8 +17,8 @@ jobs:
       # Generate the base64-encoded token
       - name: Generate base64-encoded token
         run: |
-          echo "::add-mask::${{ secrets.OSSRH_TOKEN_USERNAME }}"
-          echo "::add-mask::${{ secrets.OSSRH_TOKEN_PASSWORD }}"
+          echo "::add-mask::${{ secrets.OSSRH_USERNAME }}"
+          echo "::add-mask::${{ secrets.OSSRH_PASSWORD }}"
           ENCODED_TOKEN=$(printf "%s:%s" "${{ secrets.OSSRH_TOKEN_USERNAME }}" "${{ secrets.OSSRH_TOKEN_PASSWORD }}" | base64)
           echo "OSSRH_TOKEN=$ENCODED_TOKEN" >> $GITHUB_ENV
         shell: bash
