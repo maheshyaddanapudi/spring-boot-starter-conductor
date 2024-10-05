@@ -58,6 +58,14 @@ jobs:
       - name: Set up gradle.properties
         run: |
           mkdir -p ~/.gradle
+          GPG_DIR=$(gpgconf --list-dirs homedir)   # Get GPG home directory
+          gpg --export-secret-keys --armor "$KEY_ID" > ~/.gnupg/secring.gpg # Export the secret key to secring.gpg
+          
+          echo "mavenCentralUsername=${OSSRH_USERNAME}" >> ~/.gradle/gradle.properties
+          echo "mavenCentralPassword=${OSSRH_PASSWORD}" >> ~/.gradle/gradle.properties
+          echo "signing.keyId=${KEY_ID}" >> ~/.gradle/gradle.properties
+          echo "signing.password=${GPG_PASSPHRASE}" >> ~/.gradle/gradle.properties
+          echo "signing.secretKeyRingFile=${HOME}/.gnupg/secring.gpg" >> ~/.gradle/gradle.properties
           echo "signing.gnupg.executable=gpg" >> ~/.gradle/gradle.properties
           echo "signing.gnupg.keyName=$KEY_ID" >> ~/.gradle/gradle.properties
           echo "signing.gnupg.passphrase=${GPG_PASSPHRASE}" >> ~/.gradle/gradle.properties
@@ -65,7 +73,9 @@ jobs:
           echo "signing.gnupg.options=--pinentry-mode loopback" >> ~/.gradle/gradle.properties
         env:
           KEY_ID: ${{ env.KEY_ID }}
-          OSSRH_TOKEN: ${{ env.OSSRH_TOKEN }}
+          OSSRH_TOKEN: ${{ secrets.OSSRH_HTOKEN }}
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         shell: bash
 
@@ -83,7 +93,7 @@ jobs:
 
       # Build and publish to Maven Central
       - name: Build and publish
-        run: ./gradlew clean build publish --no-daemon --stacktrace
+        run: ./gradlew clean build publishAndReleaseToMavenCentral --no-daemon --stacktrace
         env:
           OSSRH_TOKEN: ${{ env.OSSRH_HTOKEN }}
 
