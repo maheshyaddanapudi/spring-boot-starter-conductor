@@ -3,7 +3,7 @@ name: Publish to Maven Central
 on:
   push:
     branches:
-      - release # or 'main' depending on how you want to control it
+      - release # or 'main' depending on your branch control
 
 jobs:
   build-and-publish:
@@ -24,23 +24,20 @@ jobs:
       # Generate GPG keys dynamically
       - name: Generate GPG keys
         run: |
-          gpg --batch --gen-key <<EOF
-          Key-Type: default
-          Subkey-Type: default
-          Name-Real: GitHub Actions
-          Name-Email: actions@github.com
-          Expire-Date: 1d
-          Passphrase: ${GPG_PASSPHRASE}
-          %commit
-          EOF
-          gpg --list-keys
-        id: generate_gpg_keys
+          echo -e "Key-Type: default\n\
+          Subkey-Type: default\n\
+          Name-Real: GitHub Actions\n\
+          Name-Email: actions@github.com\n\
+          Expire-Date: 1d\n\
+          Passphrase: ${GPG_PASSPHRASE}\n\
+          %commit\n" | gpg --batch --gen-key
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
-      # Export the generated GPG keys to be used for signing
+      # Export the generated GPG private key
       - name: Export GPG private key
         run: |
           gpg --armor --export-secret-keys > private.key
-        id: export_gpg_key
 
       # Set up the Gradle wrapper and give it permission to run
       - name: Setup Gradle Wrapper
@@ -50,10 +47,12 @@ jobs:
       - name: Set up gradle.properties
         run: |
           echo "signing.keyId=$(gpg --list-keys --with-colons | grep pub | cut -d':' -f5)" >> gradle.properties
-          echo "signing.password=${{ secrets.GPG_PASSPHRASE }}" >> gradle.properties
+          echo "signing.password=${GPG_PASSPHRASE}" >> gradle.properties
           echo "signing.secretKeyRingFile=$(pwd)/private.key" >> gradle.properties
           echo "ossrhUsername=${{ secrets.OSSRH_USERNAME }}" >> gradle.properties
           echo "ossrhPassword=${{ secrets.OSSRH_PASSWORD }}" >> gradle.properties
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
       # Build, sign, and publish to Maven Central
       - name: Build and publish
