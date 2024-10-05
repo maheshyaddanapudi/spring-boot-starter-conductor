@@ -74,7 +74,7 @@ dependencies {
 	implementation 'org.apache.logging.log4j:log4j-web'
 
 	// OpenAPI for generating interactive API documentation
-	implementation 'org.springdoc:springdoc-openapi-ui:1.6.+'
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
 
 	// JAXB runtime for XML processing
 	runtimeOnly 'org.glassfish.jaxb:jaxb-runtime:2.3.3'
