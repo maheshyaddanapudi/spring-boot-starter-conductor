@@ -49,7 +49,10 @@ jobs:
       # Configure GPG to use loopback pinentry
       - name: Configure GPG
         run: |
+          GPG_DIR=$(gpgconf --list-dirs homedir)   # Get GPG home directory
+          ls -lrt $GPG_DIR
           gpg --export-secret-keys --no-default-keyring --keyring ~/.gnupg/secring.gpg "$KEY_ID"
+          cat $GPG_DIR/secring.gpg
           echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
           echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
           gpgconf --kill gpg-agent
