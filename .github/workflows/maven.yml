@@ -72,6 +72,9 @@ jobs:
       # Build and publish to Maven Central
       - name: Build and publish
         run: ./gradlew clean build publish --no-daemon --stacktrace
+        env:
+          KEY_ID: ${{ env.KEY_ID }}
+          OSSRH_TOKEN: ${{ secrets.OSSRH_HTOKEN }}
 
       # Clean up GPG keys
       - name: Clean up GPG keys
