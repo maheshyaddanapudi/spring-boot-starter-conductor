@@ -247,6 +247,4 @@ afterEvaluate {
 
 // Ensure publishing is separate from build
 // Ensure the build task does not trigger any publishing task
-tasks.build {
-    dependsOn.remove("publishToMavenCentral")
-}
+
