@@ -8,7 +8,11 @@ on:
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
-
+    env:
+      OSSRH_HTOKEN: ${{ secrets.OSSRH_HTOKEN }}
+      OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+      OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
     steps:
       # Checkout the repository code
       - name: Checkout code
