@@ -140,6 +140,8 @@ artifacts {
 	archives javadocJar, sourcesJar
 }
 
+import com.vanniktech.maven.publish.SonatypeHost
+
 // Configure Maven Publishing using Vanniktech Plugin
 mavenPublishing {
   coordinates(group, archivesBaseName, version)
