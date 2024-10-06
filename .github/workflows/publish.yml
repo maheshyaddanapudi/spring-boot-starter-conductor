@@ -59,14 +59,14 @@ jobs:
         run: |
           mkdir -p ~/.gradle
           GPG_DIR=$(gpgconf --list-dirs homedir)   # Get GPG home directory
-          gpg --no-default-keyring --keyring secring.gpg --batch --pinentry-mode loopback --passphrase "${GPG_PASSPHRASE}" --export-secret-keys --armor "$KEY_ID" > /home/runner/secring.gpg
+          gpg --no-default-keyring --keyring secring.gpg --batch --pinentry-mode loopback --passphrase "${GPG_PASSPHRASE}" --export-secret-keys --armor "$KEY_ID" > /home/runner/.gnupg/secring.gpg
           ls -lrt /home/runner/secring.gpg
           cat /home/runner/secring.gpg
           echo "mavenCentralUsername=${OSSRH_USERNAME}" >> ~/.gradle/gradle.properties
           echo "mavenCentralPassword=${OSSRH_PASSWORD}" >> ~/.gradle/gradle.properties
           echo "signing.keyId=${KEY_ID}" >> ~/.gradle/gradle.properties
           echo "signing.password=${GPG_PASSPHRASE}" >> ~/.gradle/gradle.properties
-          echo "signing.secretKeyRingFile=/home/runner/secring.gpg" >> ~/.gradle/gradle.properties
+          echo "signing.secretKeyRingFile=/home/runner/.gnupg/secring.gpg" >> ~/.gradle/gradle.properties
           echo "signing.gnupg.options=--pinentry-mode loopback" >> ~/.gradle/gradle.properties
         env:
           KEY_ID: ${{ env.KEY_ID }}
