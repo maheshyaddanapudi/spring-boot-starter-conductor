@@ -56,10 +56,10 @@ jobs:
       # Set up GPG and secring.gpg for signing
       - name: Create secring.gpg
         run: |
-          gpg --pinentry-mode loopback --export-secret-keys > ~/.gnupg/secring.gpg
+          gpg --pinentry-mode loopback --export-secret-keys > /home/runner/.gnupg/secring.gpg
           gpg --list-secret-keys --keyid-format short
-          cat ~/.gnupg/secring.gpg
-          ls -lrt ~/.gnupg/secring.gpg
+          cat /home/runner/.gnupg/secring.gpg
+          ls -lrt /home/runner/.gnupg/secring.gpg
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
@@ -70,7 +70,7 @@ jobs:
           mkdir -p ~/.gradle
           echo "signing.keyId=${{ secrets.GPG_KEY_ID }}" >> ~/.gradle/gradle.properties
           echo "signing.password=${{ secrets.GPG_PASSPHRASE }}" >> ~/.gradle/gradle.properties
-          echo "signing.secretKeyRingFile=~/.gnupg/secring.gpg" >> ~/.gradle/gradle.properties
+          echo "signing.secretKeyRingFile=/home/runner/.gnupg/secring.gpg" >> ~/.gradle/gradle.properties
           echo "ossrhUsername=${{ secrets.OSSRH_USERNAME }}" >> ~/.gradle/gradle.properties
           echo "ossrhPassword=${{ secrets.OSSRH_PASSWORD }}" >> ~/.gradle/gradle.properties
           cat ~/.gradle/gradle.properties
