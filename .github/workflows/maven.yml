@@ -56,7 +56,7 @@ jobs:
       # Set up GPG and secring.gpg for signing
       - name: Create secring.gpg
         run: |
-          gpg --keyring secring.gpg --export-secret-keys > ~/.gnupg/secring.gpg
+          gpg --batch --pinentry-mode loopback --keyring secring.gpg --export-secret-keys > ~/.gnupg/secring.gpg
           gpg --list-secret-keys --keyid-format short
           cat ~/.gnupg/secring.gpg
           ls -lrt ~/.gnupg/secring.gpg
