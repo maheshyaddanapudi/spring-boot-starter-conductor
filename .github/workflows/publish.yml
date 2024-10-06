@@ -51,12 +51,12 @@ jobs:
         run: |
           GPG_DIR=$(gpgconf --list-dirs homedir)   # Get GPG home directory
           ls -lrt $GPG_DIR
-          gpg --export-secret-keys --no-default-keyring --keyring ~/.gnupg/secring.gpg "$KEY_ID"
-          ls -lrt $GPG_DIR
-          cat $GPG_DIR/secring.gpg
           echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
           echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
           gpgconf --kill gpg-agent
+          gpg --export-secret-keys --no-default-keyring --keyring ~/.gnupg/secring.gpg "$KEY_ID"
+          ls -lrt $GPG_DIR
+          cat $GPG_DIR/secring.gpg
         env:
           KEY_ID: ${{ env.KEY_ID }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
