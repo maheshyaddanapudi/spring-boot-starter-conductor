@@ -49,9 +49,13 @@ jobs:
       # Configure GPG to use loopback pinentry
       - name: Configure GPG
         run: |
+          gpg --no-default-keyring --keyring secring.gpg --batch --pinentry-mode loopback --passphrase "${GPG_PASSPHRASE}" --export-secret-keys --armor "$KEY_ID" > ~/.gnupg/secring.gpg
           echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
           echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
           gpgconf --kill gpg-agent
+        env:
+          KEY_ID: ${{ env.KEY_ID }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         shell: bash
 
       # Set up Gradle properties
@@ -59,14 +63,13 @@ jobs:
         run: |
           mkdir -p ~/.gradle
           GPG_DIR=$(gpgconf --list-dirs homedir)   # Get GPG home directory
-          gpg --no-default-keyring --keyring secring.gpg --batch --pinentry-mode loopback --passphrase "${GPG_PASSPHRASE}" --export-secret-keys --armor "$KEY_ID" > /home/runner/.gnupg/secring.gpg
-          ls -lrt /home/runner/secring.gpg
-          cat /home/runner/secring.gpg
+          ls -lrt $GPG_DIR
+          cat $GPG_DIR/secring.gpg
           echo "mavenCentralUsername=${OSSRH_USERNAME}" >> ~/.gradle/gradle.properties
           echo "mavenCentralPassword=${OSSRH_PASSWORD}" >> ~/.gradle/gradle.properties
           echo "signing.keyId=${KEY_ID}" >> ~/.gradle/gradle.properties
           echo "signing.password=${GPG_PASSPHRASE}" >> ~/.gradle/gradle.properties
-          echo "signing.secretKeyRingFile=/home/runner/.gnupg/secring.gpg" >> ~/.gradle/gradle.properties
+          echo "signing.secretKeyRingFile=${GPG_DIR}/secring.gpg" >> ~/.gradle/gradle.properties
           echo "signing.gnupg.options=--pinentry-mode loopback" >> ~/.gradle/gradle.properties
         env:
           KEY_ID: ${{ env.KEY_ID }}
