@@ -172,6 +172,10 @@ mavenPublishing {
       developerConnection = "scm:git:ssh://git@github.com/maheshyaddanapudi/spring-boot-starter-conductor.git"
     }
   }
+
+  publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+
+  signAllPublications()
 }
 
 // Remove or comment out the existing 'publishing' block to avoid conflicts
