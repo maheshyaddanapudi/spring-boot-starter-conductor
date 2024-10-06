@@ -53,6 +53,19 @@ jobs:
           java-version: '17'
           cache: 'gradle'
 
+      # Configure GPG to use loopback pinentry
+      - name: Configure GPG
+        run: |
+          GPG_DIR=$(gpgconf --list-dirs homedir)   # Get GPG home directory
+          ls -lrt $GPG_DIR
+          echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
+          echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
+          gpgconf --kill gpg-agent
+        env:
+          KEY_ID: ${{ env.KEY_ID }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        shell: bash
+
       # Set up GPG and secring.gpg for signing
       - name: Create secring.gpg
         run: |
