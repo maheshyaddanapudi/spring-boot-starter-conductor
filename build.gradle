@@ -1,7 +1,5 @@
 plugins {
 	id 'java'
-	id 'maven'
-	id 'signing'
 	id 'io.spring.dependency-management' version '1.1.3'
 }
 
@@ -137,58 +135,4 @@ task sourcesJar(type: Jar) {
 
 artifacts {
 	archives javadocJar, sourcesJar
-}
-
-
-// Signing configuration to sign the artifacts
-signing {
-    sign configurations.archives
-}
-
-// Maven deployment configuration for uploading to OSSRH
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-            // Staging repository for releasing artifacts to Sonatype OSSRH
-            repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            // Snapshot repository for OSSRH
-            snapshotRepository(url: "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            // Metadata for POM file
-            pom.project {
-                name = 'Spring Boot Starter for Netflix Conductor'
-                packaging = 'jar'
-                description = 'A Spring Boot starter for Netflix Conductor'
-                url = 'https://github.com/maheshyaddanapudi/spring-boot-starter-conductor'
-
-                scm {
-                    connection = 'scm:git:git://github.com/maheshyaddanapudi/spring-boot-starter-conductor.git'
-                    developerConnection = 'scm:git:ssh://github.com/maheshyaddanapudi/spring-boot-starter-conductor.git'
-                    url = 'https://github.com/maheshyaddanapudi/spring-boot-starter-conductor'
-                }
-
-                licenses {
-                    license {
-                        name = 'Apache License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-
-                developers {
-                    developer {
-                        id = 'maheshyaddanapudi'
-                        name = 'Mahesh Yaddanapudi'
-                        email = 'opensource@maheshyaddanapudi.com'
-                    }
-                }
-            }
-        }
-    }
 }
