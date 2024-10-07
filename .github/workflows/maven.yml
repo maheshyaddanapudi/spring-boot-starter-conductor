@@ -93,7 +93,7 @@ jobs:
           cat ~/.gradle/gradle.properties
         env:
           KEY_ID: ${{ env.KEY_ID }}
-          SECRING_HOME: ${{ SECRING_HOME }}
+          SECRING_HOME: ${{ env.SECRING_HOME }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
