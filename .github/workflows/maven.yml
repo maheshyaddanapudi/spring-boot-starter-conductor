@@ -54,6 +54,7 @@ jobs:
           echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
           echo "no-ask-cert-level" >> ~/.gnupg/gpg.conf  
           echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
+          echo "no-tty" >> ~/.gnupg/gpg.conf  
           gpgconf --kill gpg-agent
         env:
           KEY_ID: ${{ env.KEY_ID }}
@@ -77,6 +78,7 @@ jobs:
       - name: Set up gradle.properties
         run: |
           mkdir -p ~/.gradle
+          echo "GPG_PASSPHRASE is $GPG_PASSPHRASE"
           echo "signing.keyId=$KEY_ID" >> ~/.gradle/gradle.properties
           echo "signing.gnupg.keyName=$KEY_ID" >> ~/.gradle/gradle.properties
           echo "signing.password=$GPG_PASSPHRASE" >> ~/.gradle/gradle.properties
