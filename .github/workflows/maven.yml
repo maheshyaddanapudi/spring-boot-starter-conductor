@@ -71,8 +71,7 @@ jobs:
       - name: Create secring.gpg
         run: |
           export GPG_TTY=$(tty)
-          gpg --batch --pinentry-mode loopback --export-secret-keys --armor > ./secring.gpg
-          gpg --list-secret-keys --keyid-format short
+          gpg --batch --pinentry-mode loopback --passphrase "$GPG_PASSPHRASE" --export-secret-keys --armor > ./secring.gpg
           pwd
           cat secring.gpg
         env:
