@@ -52,11 +52,6 @@ dependencyManagement {
 	}
 }
 
-// Specify attributes to resolve dependencies for Java 17
-attributesSchema {
-	attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE)
-}
-
 configurations.all {
 	// Exclude conflicting logging frameworks to align with Conductor's Log4j2 setup
 	exclude group: 'ch.qos.logback', module: 'logback-classic'
