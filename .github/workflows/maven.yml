@@ -70,7 +70,7 @@ jobs:
       # Set up GPG and secring.gpg for signing
       - name: Create secring.gpg
         run: |
-          gpg --batch --pinentry-mode loopback --export-secret-keys > /home/runner/.gnupg/secring.gpg
+          gpg --batch --pinentry-mode loopback --export-secret-keys --armor > /home/runner/.gnupg/secring.gpg
           gpg --list-secret-keys --keyid-format short
           cat /home/runner/.gnupg/secring.gpg
           ls -lrt /home/runner/.gnupg/secring.gpg
