@@ -52,6 +52,7 @@ jobs:
           GPG_DIR=$(gpgconf --list-dirs homedir)   # Get GPG home directory
           ls -lrt $GPG_DIR
           echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
+          echo "auto-expand-secmem" >> ~/.gnupg/gpg-agent.conf
           echo "no-ask-cert-level" >> ~/.gnupg/gpg.conf  
           echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
           echo "no-tty" >> ~/.gnupg/gpg.conf  
