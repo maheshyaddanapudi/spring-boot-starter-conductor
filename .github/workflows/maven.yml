@@ -72,7 +72,7 @@ jobs:
           export SECRING_HOME="$(mktemp -d)"
           mkdir -p $SECRING_HOME
           echo "SECRING_HOME =$SECRING_HOME" >> $GITHUB_ENV
-          gpg --batch --pinentry-mode loopback --export-secret-keys --armor > $SECRING_HOME/secring.gpg
+          gpg --pinentry-mode loopback --export-secret-keys --armor > $SECRING_HOME/secring.gpg
           gpg --list-secret-keys --keyid-format short
           cat "${{ env.SECRING_HOME }}/secring.gpg"
           ls -lrt $SECRING_HOME/secring.gpg
