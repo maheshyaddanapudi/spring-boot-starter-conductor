@@ -19,11 +19,11 @@ jobs:
         uses: actions/checkout@v3
 
       # Set up JDK 17
-      - name: Set up JDK 15
+      - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '15'
+          java-version: '11'
           cache: 'gradle'
 
       # Generate a new GPG key pair
