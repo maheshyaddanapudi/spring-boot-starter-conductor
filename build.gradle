@@ -194,7 +194,7 @@ uploadArchives {
 
 afterEvaluate {
     signing {
-        useGpgCmd()  // Use the system's GPG command
+        //useGpgCmd()  // Use the system's GPG command
 	useInMemoryPgpKeys(findProperty("signing.keyId"),
                        findProperty("signing.secretKeyRingFile"),
                        findProperty("signing.password"))
