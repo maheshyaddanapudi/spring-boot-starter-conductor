@@ -69,14 +69,10 @@ jobs:
       # Set up GPG and secring.gpg for signing
       - name: Create secring.gpg
         run: |
-          export SECRING_HOME="$(mktemp -d)"
-          mkdir -p $SECRING_HOME
-          echo "$SECRING_HOME"
-          echo "SECRING_HOME =$SECRING_HOME" >> $GITHUB_ENV
-          gpg --batch --pinentry-mode loopback --passphrase "${{ secrets.GPG_PASSPHRASE }}" --export-secret-keys --armor --keyring $SECRING_HOME/secring.gpg
+          gpg --batch --pinentry-mode loopback --passphrase "$GPG_PASSPHRASE" --export-secret-keys --armor --keyring ./secring.gpg
           gpg --list-secret-keys --keyid-format short
-          cat "${{ env.SECRING_HOME }}/secring.gpg"
-          ls -lrt $SECRING_HOME/secring.gpg
+          pwd
+          cat secring.gpg
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           SECRING_HOME: ${{ env.SECRING_HOME }}
