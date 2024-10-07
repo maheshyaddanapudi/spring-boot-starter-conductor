@@ -83,6 +83,8 @@ jobs:
           echo "signing.keyId=$KEY_ID" >> ~/.gradle/gradle.properties
           echo "signing.gnupg.keyName=$KEY_ID" >> ~/.gradle/gradle.properties
           echo "signing.password=$GPG_PASSPHRASE" >> ~/.gradle/gradle.properties
+          # Read the secret-key.asc file and inject it into gradle.properties
+          echo "signing.secretKey=$(cat secring.gpg)" >> ~/.gradle/gradle.properties
           echo "signing.secretKeyRingFile=secring.gpg" >> ~/.gradle/gradle.properties
           echo "ossrhUsername=$OSSRH_USERNAME" >> ~/.gradle/gradle.properties
           echo "ossrhPassword=$OSSRH_PASSWORD" >> ~/.gradle/gradle.properties
