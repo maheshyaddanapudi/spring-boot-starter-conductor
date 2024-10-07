@@ -59,7 +59,6 @@ jobs:
           GPG_DIR=$(gpgconf --list-dirs homedir)   # Get GPG home directory
           ls -lrt $GPG_DIR
           echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
-          echo "use-agent" >> ~/.gnupg/gpg.conf
           echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
           gpgconf --kill gpg-agent
         env:
