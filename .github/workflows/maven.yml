@@ -90,7 +90,8 @@ jobs:
           echo "signing.secretKey=$(cat secring.gpg)" >> ~/.gradle/gradle.properties
           echo "signing.secretKeyRingFile=secring.gpg" >> ~/.gradle/gradle.properties
           echo "ossrhUsername=${OSSRH_USERNAME}" >> ~/.gradle/gradle.properties
-          echo "ossrhPassword=${OSSRH_HTOKEN}" >> ~/.gradle/gradle.properties
+          echo "ossrhPassword=${OSSRH_PASSWORD}" >> ~/.gradle/gradle.properties
+          echo "ossrhToken=${OSSRH_HTOKEN}" >> ~/.gradle/gradle.properties
           cat ~/.gradle/gradle.properties
         env:
           KEY_ID: ${{ env.KEY_ID }}
