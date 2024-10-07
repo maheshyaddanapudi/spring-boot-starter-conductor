@@ -33,8 +33,9 @@ jobs:
       - name: Extract GPG key ID
         id: gpg
         run: |
-          KEY_ID=$(gpg --list-secret-keys --keyid-format short)
+          KEY_ID=$(gpg --list-secret-keys --keyid-format short | grep 'sec' | awk '{print $2}' | cut -d'/' -f2)
           echo "KEY_ID=$KEY_ID" >> $GITHUB_ENV
+          echo "$KEY_ID"
         shell: bash
 
       # Set up JDK 17
@@ -76,11 +77,11 @@ jobs:
       - name: Set up gradle.properties
         run: |
           mkdir -p ~/.gradle
-          echo "signing.keyId=${{ env.KEY_ID }}" >> ~/.gradle/gradle.properties
-          echo "signing.password=${{ secrets.GPG_PASSPHRASE }}" >> ~/.gradle/gradle.properties
+          echo "signing.keyId=$KEY_ID" >> ~/.gradle/gradle.properties
+          echo "signing.password=$GPG_PASSPHRASE" >> ~/.gradle/gradle.properties
           echo "signing.secretKeyRingFile=secring.gpg" >> ~/.gradle/gradle.properties
-          echo "ossrhUsername=${{ secrets.OSSRH_USERNAME }}" >> ~/.gradle/gradle.properties
-          echo "ossrhPassword=${{ secrets.OSSRH_PASSWORD }}" >> ~/.gradle/gradle.properties
+          echo "ossrhUsername=$OSSRH_USERNAME" >> ~/.gradle/gradle.properties
+          echo "ossrhPassword=$OSSRH_PASSWORD" >> ~/.gradle/gradle.properties
           cat ~/.gradle/gradle.properties
         env:
           KEY_ID: ${{ env.KEY_ID }}
