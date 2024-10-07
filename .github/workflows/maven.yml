@@ -66,13 +66,14 @@ jobs:
       - name: Create secring.gpg
         run: |
           export GPG_TTY=$(tty)
-          gpg --batch --pinentry-mode loopback --passphrase "$GPG_PASSPHRASE" --export-secret-keys --armor > ~/.gnupg/secring.gpg
+          gpg --batch --pinentry-mode loopback --passphrase "$GPG_PASSPHRASE" --export-secret-keys --armor $KEY_ID > ~/.gnupg/secring.gpg
           cp /home/runner/.gnupg/secring.gpg .
           pwd
           ls -lrt
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           GPG_TTY: ${{ env.GPG_TTY }}
+          KEY_ID: ${{ env.KEY_ID }}
 
 
       # Set up Gradle properties
