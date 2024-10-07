@@ -52,6 +52,11 @@ dependencyManagement {
 	}
 }
 
+// Specify attributes to resolve dependencies for Java 17
+attributesSchema {
+	attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE)
+}
+
 configurations.all {
 	// Exclude conflicting logging frameworks to align with Conductor's Log4j2 setup
 	exclude group: 'ch.qos.logback', module: 'logback-classic'
@@ -64,19 +69,13 @@ configurations.all {
 		force 'org.codehaus.jettison:jettison:1.5.4'
 		force 'org.apache.commons:commons-compress:1.21'
 	}
+
+	attributes {
+		attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 17)
+	}
 }
 
 dependencies {
-	// Specify attributes to resolve dependencies for Java 17
-	attributesSchema {
-		attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE)
-	}
-	
-	configurations.all {
-		attributes {
-	    		attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 17)
-		}
-	}
 	// Core Spring Boot dependencies for auto-configuration and web application support
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
