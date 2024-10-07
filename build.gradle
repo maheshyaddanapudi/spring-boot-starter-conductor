@@ -133,9 +133,23 @@ dependencies {
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 }
 
-signing {
-    sign configurations.archives
+// Javadoc and Sources JAR tasks
+task javadocJar(type: Jar) {
+	//classifier = 'javadoc'
+	archiveClassifier.set('javadoc') // Replace 'classifier' with 'archiveClassifier.set()'
+	from javadoc
 }
+
+task sourcesJar(type: Jar) {
+	//classifier = 'sources'
+	archiveClassifier.set('sources') // Replace 'classifier' with 'archiveClassifier.set()'
+	from sourceSets.main.allSource
+}
+
+artifacts {
+	archives javadocJar, sourcesJar
+}
+
 // Maven deployment configuration for uploading to OSSRH
 uploadArchives {
     repositories {
@@ -178,19 +192,9 @@ uploadArchives {
     }
 }
 
-// Javadoc and Sources JAR tasks
-task javadocJar(type: Jar) {
-	//classifier = 'javadoc'
-	archiveClassifier.set('javadoc') // Replace 'classifier' with 'archiveClassifier.set()'
-	from javadoc
-}
-
-task sourcesJar(type: Jar) {
-	//classifier = 'sources'
-	archiveClassifier.set('sources') // Replace 'classifier' with 'archiveClassifier.set()'
-	from sourceSets.main.allSource
-}
-
-artifacts {
-	archives javadocJar, sourcesJar
+afterEvaluate {
+    signing {
+        useGpgCmd()  // Use the system's GPG command
+        sign configurations.archives  // Or sign the necessary publication
+    }
 }
