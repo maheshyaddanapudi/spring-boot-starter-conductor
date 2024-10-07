@@ -194,10 +194,10 @@ uploadArchives {
 
 afterEvaluate {
     signing {
-        //useGpgCmd()  // Use the system's GPG command
-	useInMemoryPgpKeys(findProperty("signing.keyId"),
-                       findProperty("signing.secretKeyRingFile"),
-                       findProperty("signing.password"))
+        useGpgCmd()  // Use the system's GPG command
+	//useInMemoryPgpKeys(findProperty("signing.keyId"),
+                       //findProperty("signing.secretKeyRingFile"),
+                      // findProperty("signing.password"))
         sign configurations.archives  // Or sign the necessary publication
     }
 }
