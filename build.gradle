@@ -13,15 +13,11 @@ java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(17)
 	}
+}
 
-    // Explicitly set compatibility with Java 17
-    withSourcesJar()
-    withJavadocJar()
-    
-    // This ensures Gradle resolves the correct JVM version
-    attributes {
-        attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 17)
-    }
+// Set compatibility attributes for Java 17
+tasks.withType(JavaCompile).configureEach {
+    options.release.set(17)  // Ensure compilation uses Java 17 bytecode
 }
 
 repositories {
@@ -71,6 +67,16 @@ configurations.all {
 }
 
 dependencies {
+	// Specify attributes to resolve dependencies for Java 17
+	attributesSchema {
+		attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE)
+	}
+	
+	configurations.all {
+		attributes {
+	    		attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 17)
+		}
+	}
 	// Core Spring Boot dependencies for auto-configuration and web application support
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
