@@ -75,7 +75,7 @@ jobs:
           mkdir -p ~/.gradle
           echo "signing.keyId=${{ env.KEY_ID }}" >> ~/.gradle/gradle.properties
           echo "signing.password=${{ secrets.GPG_PASSPHRASE }}" >> ~/.gradle/gradle.properties
-          echo "signing.secretKeyRingFile=~/.gnupg/secring.gpg" >> ~/.gradle/gradle.properties
+          echo "signing.secretKeyRingFile=/home/runner/.gnupg/secring.gpg" >> ~/.gradle/gradle.properties
           echo "ossrhUsername=${{ secrets.OSSRH_USERNAME }}" >> ~/.gradle/gradle.properties
           echo "ossrhPassword=${{ secrets.OSSRH_PASSWORD }}" >> ~/.gradle/gradle.properties
           cat ~/.gradle/gradle.properties
