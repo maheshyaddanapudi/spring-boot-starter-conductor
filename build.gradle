@@ -239,23 +239,23 @@ publishing {
         maven {
             name = "OSSRH"
             url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+            credentials(HttpHeaderCredentials) {
+                name = "Authorization"
+                value = "Bearer ${findProperty('ossrhToken') ?: System.getenv('OSSRH_HTOKEN')}"
+            }
             authentication {
-                headerAuth(BearerAuthentication) {
-                    headers["Authorization"] = "Bearer ${findProperty('ossrhToken') ?: System.getenv('OSSRH_HTOKEN')}"
-                }
+                header(HttpHeaderAuthentication)
             }
         }
         maven {
             name = "Snapshots"
             url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
-            credentials {
-                username = "" // Not used for Bearer Token
-                password = "" // Not used for Bearer Token
+            credentials(HttpHeaderCredentials) {
+                name = "Authorization"
+                value = "Bearer ${findProperty('ossrhToken') ?: System.getenv('OSSRH_HTOKEN')}"
             }
             authentication {
-                headerAuth(BearerAuthentication) {
-                    headers["Authorization"] = "Bearer ${findProperty('ossrhToken') ?: System.getenv('OSSRH_TOKEN')}"
-                }
+                header(HttpHeaderAuthentication)
             }
         }
     }
