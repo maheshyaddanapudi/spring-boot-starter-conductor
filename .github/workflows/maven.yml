@@ -97,11 +97,15 @@ jobs:
           KEY_ID: ${{ env.KEY_ID }}
           OSSRH_TOKEN: ${{ secrets.OSSRH_HTOKEN }}
 
-      # Clean up GPG keys
       - name: Clean up GPG keys
         run: |
-          gpg --batch --yes --delete-secret-keys $KEY_ID
-          gpg --batch --yes --delete-keys $KEY_ID
+          # Get the full fingerprint of the GPG key
+          KEY_FINGERPRINT=$(gpg --list-secret-keys --with-colons | grep fpr | cut -d ':' -f 10)
+      
+          # Delete the secret key by fingerprint
+          gpg --batch --yes --delete-secret-keys "$KEY_FINGERPRINT"
+      
+          # Delete the public key by fingerprint
+          gpg --batch --yes --delete-keys "$KEY_FINGERPRINT"
         env:
           KEY_ID: ${{ env.KEY_ID }}
-        shell: bash
