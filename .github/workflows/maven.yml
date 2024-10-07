@@ -71,9 +71,7 @@ jobs:
       - name: Create secring.gpg
         run: |
           export GPG_TTY=$(tty)
-          gpg --batch --pinentry-mode loopback --passphrase "$GPG_PASSPHRASE" --export-secret-keys --armor > ./secring.gpg
-          pwd
-          cat secring.gpg
+          gpg --batch --pinentry-mode loopback --passphrase "$GPG_PASSPHRASE" --export-secret-keys --armor > ~/.gnupg/secring.gpg
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           GPG_TTY: ${{ env.GPG_TTY }}
@@ -85,13 +83,12 @@ jobs:
           mkdir -p ~/.gradle
           echo "signing.keyId=${{ env.KEY_ID }}" >> ~/.gradle/gradle.properties
           echo "signing.password=${{ secrets.GPG_PASSPHRASE }}" >> ~/.gradle/gradle.properties
-          echo "signing.secretKeyRingFile=${{ env.SECRING_HOME }}/secring.gpg" >> ~/.gradle/gradle.properties
+          echo "signing.secretKeyRingFile=~/.gnupg/secring.gpg" >> ~/.gradle/gradle.properties
           echo "ossrhUsername=${{ secrets.OSSRH_USERNAME }}" >> ~/.gradle/gradle.properties
           echo "ossrhPassword=${{ secrets.OSSRH_PASSWORD }}" >> ~/.gradle/gradle.properties
           cat ~/.gradle/gradle.properties
         env:
           KEY_ID: ${{ env.KEY_ID }}
-          SECRING_HOME: ${{ env.SECRING_HOME }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
