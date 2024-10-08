@@ -105,10 +105,7 @@ dependencies {
 	implementation 'com.netflix.conductor:conductor-awssqs-event-queue:3.15.0'
 	implementation 'com.netflix.conductor:conductor-azureblob-storage:3.15.0'
 	implementation 'com.netflix.conductor:conductor-cassandra-persistence:3.15.0'
-	//implementation 'com.netflix.conductor:conductor-client:3.15.0'
-	//implementation 'com.netflix.conductor:conductor-client-spring:3.15.0'
 	implementation 'com.netflix.conductor:conductor-common-persistence:3.15.0'
-	//implementation 'com.netflix.conductor:conductor-contribs:3.7.3' // Note the different version
 	implementation 'com.netflix.conductor:conductor-es6-persistence:3.15.0'
 	implementation 'com.netflix.conductor:conductor-es7-persistence:3.15.0'
 	implementation 'com.netflix.conductor:conductor-grpc:3.15.0'
@@ -151,56 +148,6 @@ artifacts {
 	archives javadocJar, sourcesJar
 }
 
-// Maven deployment configuration for uploading to OSSRH
-/*uploadArchives {
-    repositories {
-        mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-            // Staging repository for releasing artifacts to Sonatype OSSRH
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                //authentication(userName: ossrhUsername, password: ossrhPassword)
-		repositoryHandler.configure {
-                    // Custom Bearer Token Authentication
-                    headers["Authorization"] = "Bearer ${findProperty('ossrhToken') ?: System.getenv('OSSRH_TOKEN')}"
-                }
-            }
-            // Snapshot repository for OSSRH
-            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                //authentication(userName: ossrhUsername, password: ossrhPassword)
-	        repositoryHandler.configure {
-                    // Custom Bearer Token Authentication
-                    headers["Authorization"] = "Bearer ${findProperty('ossrhToken') ?: System.getenv('OSSRH_TOKEN')}"
-                }
-            }
-            // Metadata for POM file
-            pom.project {
-                name = 'Spring Boot Starter for Netflix Conductor'
-                packaging = 'jar'
-                description = 'A Spring Boot starter for Netflix Conductor'
-                url = 'https://github.com/maheshyaddanapudi/spring-boot-starter-conductor'
-                scm {
-                    connection = 'scm:git:git://github.com/maheshyaddanapudi/spring-boot-starter-conductor.git'
-                    developerConnection = 'scm:git:ssh://github.com/maheshyaddanapudi/spring-boot-starter-conductor.git'
-                    url = 'https://github.com/maheshyaddanapudi/spring-boot-starter-conductor'
-                }
-                licenses {
-                    license {
-                        name = 'Apache License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id = 'maheshyaddanapudi'
-                        name = 'Mahesh Yaddanapudi'
-                        email = 'opensource@maheshyaddanapudi.com'
-                    }
-                }
-            }
-        }
-    }
-}*/
-
 publishing {
     publications {
         mavenJava(MavenPublication) {
@@ -237,28 +184,6 @@ publishing {
     }
 
     repositories {
-        /*maven {
-            name = "OSSRH"
-            url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
-            credentials(HttpHeaderCredentials) {
-                name = "Authorization"
-                value = "Bearer ${findProperty('ossrhToken') ?: System.getenv('OSSRH_HTOKEN')}"
-            }
-            authentication {
-                header(HttpHeaderAuthentication)
-            }
-        }
-        maven {
-            name = "Snapshots"
-            url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
-            credentials(HttpHeaderCredentials) {
-                name = "Authorization"
-                value = "Bearer ${findProperty('ossrhToken') ?: System.getenv('OSSRH_HTOKEN')}"
-            }
-            authentication {
-                header(HttpHeaderAuthentication)
-            }
-        }*/
 	maven {
             name = "Local"
             url = layout.buildDirectory.dir('repos/bundles')
@@ -268,11 +193,7 @@ publishing {
 
 afterEvaluate {
     signing {
-        useGpgCmd()  // Use the system's GPG command
-	//useInMemoryPgpKeys(findProperty("signing.keyId"),
-                       //findProperty("signing.secretKeyRingFile"),
-                      // findProperty("signing.password"))
-        //sign configurations.archives  // Or sign the necessary publication
+        useGpgCmd()  
 	sign publishing.publications.mavenJava
     }
 }
