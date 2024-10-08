@@ -272,7 +272,8 @@ afterEvaluate {
 	//useInMemoryPgpKeys(findProperty("signing.keyId"),
                        //findProperty("signing.secretKeyRingFile"),
                       // findProperty("signing.password"))
-        sign configurations.archives  // Or sign the necessary publication
+        //sign configurations.archives  // Or sign the necessary publication
+	sign publishing.publications.mavenJava
     }
 }
 
