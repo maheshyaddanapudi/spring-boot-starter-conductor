@@ -38,6 +38,12 @@ jobs:
           echo "$KEY_ID"
         shell: bash
 
+      # Upload GPG public key to keyserver
+      - name: Publish GPG key to keyserver
+        run: |
+          gpg --send-keys $KEY_ID --keyserver hkps://keys.openpgp.org
+        shell: bash
+
       # Set up JDK 17
       - name: Set up JDK 17
         uses: actions/setup-java@v3
