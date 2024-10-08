@@ -38,11 +38,16 @@ jobs:
           echo "$KEY_ID"
         shell: bash
 
-      # Upload GPG public key to keyserver
+            # Install GPG keyserver support
+      - name: Install GPG Keyserver Support
+        run: |
+          sudo apt-get update
+          sudo apt-get install dirmngr
+
+      # Publish GPG key to keyserver
       - name: Publish GPG key to keyserver
         run: |
-          gpg --send-keys $KEY_ID --keyserver hkps://keys.openpgp.org
-        shell: bash
+          gpg --keyserver hkps://keys.openpgp.org --send-keys $KEY_ID
 
       # Set up JDK 17
       - name: Set up JDK 17
