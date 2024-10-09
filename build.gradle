@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'com.maheshyaddanapudi' // Update to your domain
-version = '3.15.1'
+version = '3.15.2'
 archivesBaseName = 'spring-boot-starter-conductor' // Set the desired artifact base name
 
 java {
@@ -88,8 +88,6 @@ dependencies {
 
 	// JAXB runtime for XML processing
 	runtimeOnly 'org.glassfish.jaxb:jaxb-runtime:2.3.3'
-
-	implementation 'com.google.guava:guava:31.1-jre'  // Java 17-compatible version of Guava
 
 	// Core Conductor Modules aligned with version 3.15.0
 	implementation 'com.netflix.conductor:conductor-common:3.15.0'
