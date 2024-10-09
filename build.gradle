@@ -8,6 +8,7 @@ plugins {
 
 group = 'com.maheshyaddanapudi' // Update to your domain
 version = '3.15.3'
+
 archivesBaseName = 'spring-boot-starter-conductor' // Set the desired artifact base name
 
 java {
