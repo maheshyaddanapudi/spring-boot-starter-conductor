@@ -108,9 +108,9 @@ When conductor.enabled=false, Conductor components will not be loaded into the S
 
 The following table lists the available artifacts published to Maven Central:
 
-| Artifact ID                      | Version | Description                                    | Maven Repository Link                                                                                                 |
-|-----------------------------------|---------|------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
-| `spring-boot-starter-conductor`   | 3.15.0  | Spring Boot starter for Netflix Conductor       | [Maven Central - spring-boot-starter-conductor](https://search.maven.org/artifact/com.maheshyaddanapudi/spring-boot-starter-conductor/3.15.0/jar) |
+| Artifact ID                      | Description                                    | Maven Repository Link                                                                                                 |
+|-----------------------------------|------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
+| `spring-boot-starter-conductor`   | Spring Boot starter for Netflix Conductor       | [Maven Central - spring-boot-starter-conductor](https://search.maven.org/artifact/com.maheshyaddanapudi/spring-boot-starter-conductor) |
 
 ## Building the Project
 
