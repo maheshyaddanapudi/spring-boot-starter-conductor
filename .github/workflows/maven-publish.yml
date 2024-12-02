@@ -3,7 +3,7 @@ name: Publish to Maven Central
 on:
   push:
     branches:
-      - release  # Update this to your main branch if needed
+      - 3.2.11  # Update this to your main branch if needed
 
 jobs:
   build-and-publish:
