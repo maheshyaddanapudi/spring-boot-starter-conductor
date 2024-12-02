@@ -1,4 +1,4 @@
-# Spring Boot Starter for Netflix Conductor
+# Spring Boot Starter for Conductor OSS
 
 ## Overview
 
