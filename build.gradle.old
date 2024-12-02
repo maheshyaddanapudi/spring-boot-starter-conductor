@@ -1,0 +1,212 @@
+plugins {
+	id 'java'
+	id 'maven-publish'
+        id 'signing'
+	id 'tech.yanand.maven-central-publish' version '1.2.0'
+	id 'io.spring.dependency-management' version '1.1.3'
+}
+
+group = 'com.maheshyaddanapudi' // Update to your domain
+version = '3.15.4'
+
+archivesBaseName = 'spring-boot-starter-conductor' // Set the desired artifact base name
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+// Set compatibility attributes for Java 17
+tasks.withType(JavaCompile).configureEach {
+    options.release.set(17)  // Ensure compilation uses Java 17 bytecode
+}
+
+repositories {
+	mavenCentral()
+
+	// Additional repositories used in Netflix Conductor
+	maven {
+		url "https://artifactory-oss.prod.netflix.net/artifactory/maven-oss-candidates"
+	}
+	exclusiveContent {
+		forRepository {
+			maven {
+				url "https://artifactory-oss.prod.netflix.net/artifactory/required-jcenter-modules-backup"
+			}
+		}
+		filter {
+			includeGroupByRegex "com\\.github\\.vmg.*"
+		}
+	}
+}
+
+dependencyManagement {
+	imports {
+		// Use Spring Boot BOM to manage versions of Spring-related dependencies
+		mavenBom "org.springframework.boot:spring-boot-dependencies:2.7.16"
+	}
+
+	dependencies {
+		// Force specific versions for compatibility with Conductor's dependencies
+		dependency 'org.codehaus.jettison:jettison:1.5.4'
+		dependency 'org.apache.commons:commons-compress:1.21' // Aligns with Conductor's enforced versions
+	}
+}
+
+configurations.all {
+	// Exclude conflicting logging frameworks to align with Conductor's Log4j2 setup
+	exclude group: 'ch.qos.logback', module: 'logback-classic'
+	exclude group: 'ch.qos.logback', module: 'logback-core'
+	exclude group: 'org.apache.logging.log4j', module: 'log4j-to-slf4j'
+	exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+
+	resolutionStrategy {
+		// Force specific versions for critical dependencies to match Conductor's strategy
+		force 'org.codehaus.jettison:jettison:1.5.4'
+		force 'org.apache.commons:commons-compress:1.21'
+	}
+
+	attributes {
+		attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 17)
+	}
+}
+
+dependencies {
+	// Core Spring Boot dependencies for auto-configuration and web application support
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	// Retry mechanism for fault-tolerant task execution
+	implementation 'org.springframework.retry:spring-retry'
+
+	// Logging dependencies to ensure compatibility with Conductor's logging setup
+	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+	implementation 'org.apache.logging.log4j:log4j-web'
+
+	// OpenAPI for generating interactive API documentation
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
+
+	// JAXB runtime for XML processing
+	runtimeOnly 'org.glassfish.jaxb:jaxb-runtime:2.3.3'
+
+	// Core Conductor Modules aligned with version 3.15.0
+	implementation 'com.netflix.conductor:conductor-common:3.15.0'
+	implementation 'com.netflix.conductor:conductor-core:3.15.0'
+	implementation 'com.netflix.conductor:conductor-server:3.15.0'
+	implementation 'com.netflix.conductor:conductor-rest:3.15.0'
+
+	// Additional Conductor Modules
+	implementation 'com.netflix.conductor:conductor-amqp:3.15.0'
+	implementation 'com.netflix.conductor:conductor-annotations:3.15.0'
+	implementation 'com.netflix.conductor:conductor-annotations-processor:3.15.0'
+	implementation 'com.netflix.conductor:conductor-awss3-storage:3.15.0'
+	implementation 'com.netflix.conductor:conductor-awssqs-event-queue:3.15.0'
+	implementation 'com.netflix.conductor:conductor-azureblob-storage:3.15.0'
+	implementation 'com.netflix.conductor:conductor-cassandra-persistence:3.15.0'
+	implementation 'com.netflix.conductor:conductor-common-persistence:3.15.0'
+	implementation 'com.netflix.conductor:conductor-es6-persistence:3.15.0'
+	implementation 'com.netflix.conductor:conductor-es7-persistence:3.15.0'
+	implementation 'com.netflix.conductor:conductor-grpc:3.15.0'
+	implementation 'com.netflix.conductor:conductor-grpc-client:3.15.0'
+	implementation 'com.netflix.conductor:conductor-grpc-server:3.15.0'
+	implementation 'com.netflix.conductor:conductor-http-task:3.15.0'
+	implementation 'com.netflix.conductor:conductor-java-sdk:3.15.0'
+	implementation 'com.netflix.conductor:conductor-json-jq-task:3.15.0'
+	implementation 'com.netflix.conductor:conductor-kafka:3.15.0'
+	implementation 'com.netflix.conductor:conductor-metrics:3.15.0'
+	implementation 'com.netflix.conductor:conductor-mysql-persistence:3.15.0'
+	implementation 'com.netflix.conductor:conductor-nats:3.15.0'
+	implementation 'com.netflix.conductor:conductor-nats-streaming:3.15.0'
+	implementation 'com.netflix.conductor:conductor-postgres-external-storage:3.15.0'
+	implementation 'com.netflix.conductor:conductor-postgres-persistence:3.15.0'
+	implementation 'com.netflix.conductor:conductor-redis-concurrency-limit:3.15.0'
+	implementation 'com.netflix.conductor:conductor-redis-lock:3.15.0'
+	implementation 'com.netflix.conductor:conductor-redis-persistence:3.15.0'
+	implementation 'com.netflix.conductor:conductor-zookeeper-lock:3.15.0'
+	implementation 'com.netflix.conductor:conductor-workflow-event-listener:3.15.0'
+
+	// Annotation Processor for Spring Boot Configuration Metadata
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+}
+
+// Javadoc and Sources JAR tasks
+task javadocJar(type: Jar) {
+	//classifier = 'javadoc'
+	archiveClassifier.set('javadoc') // Replace 'classifier' with 'archiveClassifier.set()'
+	from javadoc
+}
+
+task sourcesJar(type: Jar) {
+	//classifier = 'sources'
+	archiveClassifier.set('sources') // Replace 'classifier' with 'archiveClassifier.set()'
+	from sourceSets.main.allSource
+}
+
+artifacts {
+	archives javadocJar, sourcesJar
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            artifact(tasks.javadocJar) // Attach Javadoc JAR
+            artifact(tasks.sourcesJar) // Attach Sources JAR
+
+            pom {
+                name = 'Spring Boot Starter for Netflix Conductor'
+                description = 'A Spring Boot starter for Netflix Conductor'
+                packaging = 'jar'
+                url = 'https://github.com/maheshyaddanapudi/spring-boot-starter-conductor'
+                scm {
+                    connection = 'scm:git:git://github.com/maheshyaddanapudi/spring-boot-starter-conductor.git'
+                    developerConnection = 'scm:git:ssh://github.com/maheshyaddanapudi/spring-boot-starter-conductor.git'
+                    url = 'https://github.com/maheshyaddanapudi/spring-boot-starter-conductor'
+                }
+                licenses {
+                    license {
+                        name = 'Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'maheshyaddanapudi'
+                        name = 'Mahesh Yaddanapudi'
+                        email = 'opensource@maheshyaddanapudi.com'
+                    }
+                }
+            }
+        }
+    }
+
+    repositories {
+	maven {
+            name = "Local"
+            url = layout.buildDirectory.dir('repos/bundles')
+        }
+    }
+}
+
+afterEvaluate {
+    signing {
+        useGpgCmd()  
+	sign publishing.publications.mavenJava
+    }
+}
+
+mavenCentral {
+    // Directory to bundle the locally published artifacts
+    repoDir = layout.buildDirectory.dir('repos/bundles')
+
+    // The authentication token (Base64 encoded "username:password" format)
+    authToken = findProperty('ossrhToken') ?: System.getenv('OSSRH_HTOKEN')
+
+    // Automatic publishing (default) or user-managed
+    publishingType = 'AUTOMATIC'
+
+    // Max wait time for status API to get 'PUBLISHING' or 'PUBLISHED' status
+    maxWait = 60
+}
