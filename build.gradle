@@ -85,7 +85,7 @@ dependencies {
     implementation group: 'org.conductoross', name: 'conductor-redis-concurrency-limit', version: '3.21.11'
     implementation group: 'org.conductoross', name: 'conductor-redis-lock', version: '3.21.11'
     implementation group: 'org.conductoross', name: 'conductor-redis-persistence', version: '3.21.11'
-    implementation group: 'org.conductoross', name: 'conductor-zookeeper-lock', version: '3.21.11'
+    //implementation group: 'org.conductoross', name: 'conductor-zookeeper-lock', version: '3.21.11'
     implementation group: 'org.conductoross', name: 'conductor-workflow-event-listener', version: '3.21.11'
 
     // Annotation Processor
