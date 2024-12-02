@@ -64,7 +64,7 @@ dependencies {
     implementation group: 'org.conductoross', name: 'conductor-rest', version: '3.21.11'
 
     // Queue configurations
-    implementation group: 'io.orkes.queues', name: 'orkes-conductor-queues', version: '1.0.0' {
+    implementation(group: 'io.orkes.queues', name: 'orkes-conductor-queues', version: '1.0.0') {
         exclude group: 'com.netflix.conductor', module: 'conductor-core'
     }
 
