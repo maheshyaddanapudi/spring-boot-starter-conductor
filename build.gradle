@@ -109,11 +109,11 @@ publishing {
                 name = 'Spring Boot Starter for Conductor OSS'
                 description = 'A Spring Boot starter for Conductor OSS with Queue Configuration'
                 packaging = 'jar'
-                url = 'https://github.com/maheshyaddanapudi/spring-boot-starter-conductor-oss'
+                url = 'https://github.com/maheshyaddanapudi/spring-boot-starter-conductor'
                 scm {
-                    connection = 'scm:git:git://github.com/maheshyaddanapudi/spring-boot-starter-conductor-oss.git'
-                    developerConnection = 'scm:git:ssh://github.com/maheshyaddanapudi/spring-boot-starter-conductor-oss.git'
-                    url = 'https://github.com/maheshyaddanapudi/spring-boot-starter-conductor-oss'
+                    connection = 'scm:git:git://github.com/maheshyaddanapudi/spring-boot-starter-conductor.git'
+                    developerConnection = 'scm:git:ssh://github.com/maheshyaddanapudi/spring-boot-starter-conductor.git'
+                    url = 'https://github.com/maheshyaddanapudi/spring-boot-starter-conductor'
                 }
                 licenses {
                     license {
