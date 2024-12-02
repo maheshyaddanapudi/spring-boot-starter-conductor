@@ -21,7 +21,7 @@ To include the starter in your Maven project, add the following dependency to yo
 <dependency>
     <groupId>com.maheshyaddanapudi</groupId>
     <artifactId>spring-boot-starter-conductor</artifactId>
-    <version>3.15.0</version>
+    <version>3.21.11.2</version>
 </dependency>
 ```
 
@@ -30,7 +30,7 @@ To include the starter in your Maven project, add the following dependency to yo
 To include the starter in your Gradle project, add this line to your build.gradle:
 
 ```
-implementation 'com.maheshyaddanapudi:spring-boot-starter-conductor:3.15.0'
+implementation 'com.maheshyaddanapudi:spring-boot-starter-conductor:3.21.11.2'
 ```
 
 ## Using the Starter in a Client Application
